@@ -76,3 +76,26 @@ if file:
             use_container_width=True
         )
         
+st.subheader("📂 Upload Candle Data (CSV)")
+
+uploaded_file = st.file_uploader(
+    "EURUSD OTC 1-minute CSV file নির্বাচন করো",
+    type=["csv"]
+)
+
+if uploaded_file is not None:
+    import pandas as pd
+
+    df = pd.read_csv(uploaded_file)
+    st.write("CSV Preview")
+    st.dataframe(df.head(10))
+
+    required_columns = ["timestamp", "open", "high", "low", "close"]
+
+    if all(col in df.columns for col in required_columns):
+        st.success("CSV কলামগুলো ঠিক আছে!")
+    else:
+        st.error(
+            "CSV-তে timestamp, open, high, low, close কলাম থাকতে হবে।"
+        )
+        
